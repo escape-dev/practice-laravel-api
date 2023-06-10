@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Api\ContactController;
 use App\Http\Controllers\Api\Users\RegisterController;
+use App\Http\Controllers\Api\Users\SessionsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,10 +18,18 @@ use App\Http\Controllers\Api\Users\RegisterController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
 Route::post('/register', [RegisterController::class, 'store'])->name('register');
+Route::post('/signin', [SessionsController::class, 'store'])->name('signin');
 
 Route::resource('contacts', ContactController::class);
+
+Route::get('/unauthorized', function () {
+    response()->json([
+        'message' => 'You need to login to access this endpoint',
+        'data'    => null,
+    ], 401);
+})->name('unauthorized');
