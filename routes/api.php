@@ -26,10 +26,3 @@ Route::post('/register', [RegisterController::class, 'store'])->name('register')
 Route::post('/signin', [SessionsController::class, 'store'])->name('signin');
 
 Route::resource('contacts', ContactController::class);
-
-Route::get('/unauthorized', function () {
-    response()->json([
-        'message' => 'You need to login to access this endpoint',
-        'data'    => null,
-    ], 401);
-})->name('unauthorized');
