@@ -24,5 +24,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::post('/register', [RegisterController::class, 'store'])->name('register');
 Route::post('/signin', [SessionsController::class, 'store'])->name('signin');
+Route::delete('/signout', [SessionsController::class, 'destroy'])->name('signout');
 
 Route::resource('contacts', ContactController::class);

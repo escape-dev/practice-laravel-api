@@ -5,6 +5,10 @@ namespace App\Http\Controllers\Api\Users;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
+use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
+use PHPOpenSourceSaver\JWTAuth\Exceptions\JWTException;
+use PHPOpenSourceSaver\JWTAuth\Exceptions\TokenExpiredException;
+use PHPOpenSourceSaver\JWTAuth\Exceptions\TokenInvalidException;
 
 class SessionsController extends Controller
 {
@@ -35,9 +39,20 @@ class SessionsController extends Controller
         }
 
         return response()->json([
-            'message' => 'Login successfully',
+            'message' => 'Sign in successfully',
             'data'    => auth('api')->user()->userAttributes(),
             'token'   => $token,
         ], 200);
+    }
+
+    public function destroy(Request $request) 
+    {
+        $token = JWTAuth::invalidate(JWTAuth::getToken());
+
+        return $this->defaultResponse([
+            'message' => 'Sign out successfully',
+            'data'    => null,
+            'status'  => 200,
+        ]);
     }
 }
