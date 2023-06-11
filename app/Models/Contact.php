@@ -13,4 +13,16 @@ class Contact extends Model
         'name',
         'phone',
     ];
+
+    public function getAllContacts() {
+        return $this->select('id', 'name', 'phone')->get();
+    }
+
+    public function contactAttributes() {
+        return [
+            "id"    => $this->id,
+            "name"  => $this->name,
+            "phone" => $this->phone,
+        ];
+    }
 }

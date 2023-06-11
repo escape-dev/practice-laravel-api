@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Models\Contact;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 
 class ContactController extends Controller
@@ -15,7 +16,13 @@ class ContactController extends Controller
      */
     public function index()
     {
-        return Contact::all();
+        $contacts = new Contact();
+
+        return $this->defaultResponse([
+            'message' => 'success get all contacts',
+            'data'    => $contacts->getAllContacts(),
+            'status'  => 200,
+        ]);
     }
 
     /**
@@ -36,9 +43,28 @@ class ContactController extends Controller
      */
     public function store(Request $request)
     {
-        return Contact::create([
+         $validator = Validator::make($request->all(), [
+            'name'     => 'required',
+            'phone'    => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return $this->defaultResponse([
+                'message' => $validator->errors(),
+                'data'    => null,
+                'status'  => 422,
+            ]);
+        }
+
+        $contact = Contact::create([
             'name' => $request->name,
             'phone' => $request->phone,
+        ]);
+
+        return $this->defaultResponse([
+            'message' => 'new contact created successfully',
+            'data'    => $contact->contactAttributes(),
+            'status'  => 201,
         ]);
     }
 
@@ -73,9 +99,28 @@ class ContactController extends Controller
      */
     public function update(Request $request, Contact $contact)
     {
+         $validator = Validator::make($request->all(), [
+            'name'     => 'required',
+            'phone'    => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return $this->defaultResponse([
+                'message' => $validator->errors(),
+                'data'    => null,
+                'status'  => 422,
+            ]);
+        }
+
         $contact->update([
             'name' => $request->name,
             'phone' => $request->phone,
+        ]);
+
+        return $this->defaultResponse([
+            'message' => 'contact has been updated',
+            'data'    => $contact->contactAttributes(),
+            'status'  => 200,
         ]);
     }
 
@@ -88,5 +133,11 @@ class ContactController extends Controller
     public function destroy(Contact $contact)
     {
         $contact->delete();
+
+        return $this->defaultResponse([
+            'message' => 'contact has been deleted',
+            'data'    => $contact->contactAttributes(),
+            'status'  => 200,
+        ]);
     }
 }

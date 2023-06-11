@@ -18,12 +18,10 @@ use App\Http\Controllers\Api\Users\SessionsController;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
 Route::post('/register', [RegisterController::class, 'store'])->name('register');
 Route::post('/signin', [SessionsController::class, 'store'])->name('signin');
 Route::delete('/signout', [SessionsController::class, 'destroy'])->name('signout');
 
-Route::resource('contacts', ContactController::class);
+Route::middleware('auth:api')->group(function () {
+    Route::resource('contacts', ContactController::class);
+});
