@@ -115,7 +115,7 @@ class ContactController extends Controller
         }
 
         $contact->update([
-            'name' => $request->name,
+            'name'  => $request->name,
             'phone' => $request->phone,
         ]);
 
