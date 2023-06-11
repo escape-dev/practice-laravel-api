@@ -57,8 +57,9 @@ class ContactController extends Controller
         }
 
         $contact = Contact::create([
-            'name' => $request->name,
-            'phone' => $request->phone,
+            'name'    => $request->name,
+            'phone'   => $request->phone,
+            'user_id' => auth('api')->user()->id,
         ]);
 
         return $this->defaultResponse([

@@ -12,17 +12,19 @@ class Contact extends Model
     protected $fillable = [
         'name',
         'phone',
+        'user_id',
     ];
 
     public function getAllContacts() {
-        return $this->select('id', 'name', 'phone')->get();
+        return $this->select('id', 'name', 'phone', 'user_id')->get();
     }
 
     public function contactAttributes() {
         return [
-            "id"    => $this->id,
-            "name"  => $this->name,
-            "phone" => $this->phone,
+            'id'      => $this->id,
+            'name'    => $this->name,
+            'phone'   => $this->phone,
+            'user_id' => $this->user_id,
         ];
     }
 }
