@@ -2,6 +2,7 @@
 pembuatan RESTful API ini menggunakan bahasa pemrogramman php dan menggunakan framework laravel dengan database mysql
 
 ## Endpoints
+note: jangan lupa menambahkan ```Accept => application/json``` di header
 ### Contacts
 * Get all contacts  : ``` GET /api/contacts ```
 * Post a contacts   : ``` POST /api/contacts ```
