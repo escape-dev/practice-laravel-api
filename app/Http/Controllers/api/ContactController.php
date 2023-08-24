@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Models\Contact;
 use Illuminate\Http\Request;
+use App\Http\Requests\ContactStoreRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 
@@ -42,20 +43,9 @@ class ContactController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ContactStoreRequest $request)
     {
-         $validator = Validator::make($request->all(), [
-            'name'     => 'required',
-            'phone'    => 'required',
-        ]);
-
-        if ($validator->fails()) {
-            return $this->defaultResponse([
-                'message' => $validator->errors(),
-                'data'    => null,
-                'status'  => 422,
-            ]);
-        }
+        $request->validated();
 
         $contact = Contact::create([
             'name'    => $request->name,
@@ -99,20 +89,9 @@ class ContactController extends Controller
      * @param  \App\Models\Contact  $contact
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Contact $contact)
+    public function update(ContactStoreRequest $request, Contact $contact)
     {
-         $validator = Validator::make($request->all(), [
-            'name'     => 'required',
-            'phone'    => 'required',
-        ]);
-
-        if ($validator->fails()) {
-            return $this->defaultResponse([
-                'message' => $validator->errors(),
-                'data'    => null,
-                'status'  => 422,
-            ]);
-        }
+        $request->validated();
 
         $contact->update([
             'name'  => $request->name,
