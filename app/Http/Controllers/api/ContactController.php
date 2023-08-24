@@ -16,12 +16,12 @@ class ContactController extends Controller
      */
     public function index()
     {
-        $contacts = new Contact();
         $user_id  = auth('api')->user()->id;
+        $contacts = Contact::getAllContacts($user_id);
 
         return $this->defaultResponse([
             'message' => 'success get all contacts',
-            'data'    => $contacts->getAllContacts($user_id),
+            'data'    => $contacts,
             'status'  => 200,
         ]);
     }

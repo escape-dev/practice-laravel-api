@@ -15,10 +15,10 @@ class Contact extends Model
         'user_id',
     ];
 
-    public function getAllContacts($user_id) {
-        return $this->select('id', 'name', 'phone', 'user_id')
-                    ->where('user_id', '=', $user_id)
-                    ->get();
+    public function scopeGetAllContacts($query, $user_id) {
+        return $query->select('id', 'name', 'phone', 'user_id')
+                     ->where('user_id', '=', $user_id)
+                     ->get();
     }
 
     public function contactAttributes() {
