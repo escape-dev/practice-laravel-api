@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\Contact;
-use Illuminate\Http\Request;
-use App\Http\Requests\ContactStoreRequest;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ContactStoreRequest;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Symfony\Component\HttpFoundation\Response;
 
 class ContactController extends Controller
 {
@@ -23,24 +24,14 @@ class ContactController extends Controller
         return $this->defaultResponse([
             'message' => 'success get all contacts',
             'data'    => $contacts,
-            'status'  => 200,
+            'status'  => Response::HTTP_OK,
         ]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\ContactStoreRequest  $request
      * @return \Illuminate\Http\Response
      */
     public function store(ContactStoreRequest $request)
@@ -56,7 +47,7 @@ class ContactController extends Controller
         return $this->defaultResponse([
             'message' => 'new contact created successfully',
             'data'    => $contact->contactAttributes(),
-            'status'  => 201,
+            'status'  => Response::HTTP_CREATED,
         ]);
     }
 
@@ -68,24 +59,17 @@ class ContactController extends Controller
      */
     public function show(Contact $contact)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Contact  $contact
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Contact $contact)
-    {
-        //
+        return $this->defaultResponse([
+            'message' => 'contact found',
+            'data'    => $contact->contactAttributes(),
+            'status'  => Response::HTTP_OK
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\ContactStoreRequest  $request
      * @param  \App\Models\Contact  $contact
      * @return \Illuminate\Http\Response
      */
@@ -101,7 +85,7 @@ class ContactController extends Controller
         return $this->defaultResponse([
             'message' => 'contact has been updated',
             'data'    => $contact->contactAttributes(),
-            'status'  => 200,
+            'status'  => Response::HTTP_OK,
         ]);
     }
 
@@ -118,7 +102,7 @@ class ContactController extends Controller
         return $this->defaultResponse([
             'message' => 'contact has been deleted',
             'data'    => $contact->contactAttributes(),
-            'status'  => 200,
+            'status'  => Response::HTTP_OK,
         ]);
     }
 }
