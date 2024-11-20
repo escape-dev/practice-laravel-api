@@ -47,7 +47,11 @@ class SessionsController extends Controller
 
     public function destroy(Request $request) 
     {
-        $token = JWTAuth::invalidate(JWTAuth::getToken());
+        $token = JWTAuth::getToken();
+        
+        if (!is_null($token)) {
+            JWTAuth::invalidate($token);
+        }
 
         return $this->defaultResponse([
             'message' => 'Sign out successfully',
