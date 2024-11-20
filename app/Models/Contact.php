@@ -29,4 +29,19 @@ class Contact extends Model
             'user_id' => $this->user_id,
         ];
     }
+
+    /**
+     * Override the route model binding
+     *
+     * @param mixed $value
+     * @param string|null $field
+     * @return \Illuminate\Database\Eloquent\Model|null
+     * @throws ModelNotFoundException
+     */
+    public function resolveRouteBinding($value, $field = null)
+    {
+        return $this->where($field ?? 'id', $value)
+            ->where('user_id', auth()->id())
+            ->firstOrFail();
+    }
 }
