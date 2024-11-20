@@ -12,3 +12,9 @@ note: jangan lupa menambahkan ```Accept => application/json``` di header
 ### Authentication
 * sign in : ``` POST /api/signin ```
 * sign up : ``` POST /api/register ```
+
+
+### Somewhat usefull method
+
+- unique validation for create or update 
+``` 'phone' => ['required', 'numeric', 'digits_between:10,15', Rule::unique('contacts')->ignore($this->contact)] ```

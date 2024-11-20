@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\UniqueUserContacts;
 use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
@@ -29,7 +30,7 @@ class ContactStoreRequest extends FormRequest
     {
         return [
             'name'  => 'required|regex:/^[A-Za-z\s\-]+$/',
-            'phone' => ['required', 'numeric', 'digits_between:10,15', Rule::unique('contacts')->ignore($this->contact)]
+            'phone' => ['required', 'numeric', 'digits_between:10,15', new UniqueUserContacts]
         ];
     }
 
