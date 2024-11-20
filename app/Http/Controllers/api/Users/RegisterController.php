@@ -3,27 +3,17 @@
 namespace App\Http\Controllers\Api\Users;
 
 use App\Models\User;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Users\RegisterRequest;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Symfony\Component\HttpFoundation\Response;
 
 class RegisterController extends Controller
 {
-    public function store(Request $request)
+    public function store(RegisterRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'name'     => 'required',
-            'email'    => 'required|email|unique:users',
-            'password' => 'required|min:8|confirmed',
-        ]);
-
-        if ($validator->fails()) {
-            return $this->defaultResponse([
-                'message' => $validator->errors(),
-                'data'    => null,
-                'status'  => 422,
-            ]);
-        }
+        $request->validated();
 
         $user = User::create([
             'name'     => $request->name,
@@ -34,7 +24,7 @@ class RegisterController extends Controller
         return $this->defaultResponse([
             'message' => 'user has been created',
             'data'    => $user->userAttributes(),
-            'status'  => 201,
+            'status'  => Response::HTTP_CREATED,
         ]);
     }
 }
