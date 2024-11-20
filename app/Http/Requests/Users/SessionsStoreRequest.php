@@ -1,15 +1,13 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Users;
 
-use App\Rules\UniqueUserContacts;
-use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Symfony\Component\HttpFoundation\Response;
 
-class ContactStoreRequest extends FormRequest
+class SessionsStoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -29,8 +27,8 @@ class ContactStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'  => 'required|regex:/^[A-Za-z\s\-]+$/',
-            'phone' => ['required', 'numeric', 'digits_between:10,15', new UniqueUserContacts]
+            'email'    => 'required',
+            'password' => 'required',
         ];
     }
 
@@ -40,5 +38,6 @@ class ContactStoreRequest extends FormRequest
             'message' => $validator->errors(),
             'data'    => null,
         ], Response::HTTP_UNPROCESSABLE_ENTITY));
+        
     }
 }

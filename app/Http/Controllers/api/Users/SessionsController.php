@@ -2,30 +2,21 @@
 
 namespace App\Http\Controllers\Api\Users;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Users\SessionsStoreRequest;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
 use PHPOpenSourceSaver\JWTAuth\Exceptions\JWTException;
 use PHPOpenSourceSaver\JWTAuth\Exceptions\TokenExpiredException;
 use PHPOpenSourceSaver\JWTAuth\Exceptions\TokenInvalidException;
+use Symfony\Component\HttpFoundation\Response;
 
 class SessionsController extends Controller
 {
-    public function store(Request $request) 
+    public function store(SessionsStoreRequest $request) 
     {
-        $validator = Validator::make($request->all(), [
-            'email'    => 'required',
-            'password' => 'required',
-        ]);
-
-        if ($validator->fails()) {
-            return $this->defaultResponse([
-                'message' => $validator->errors(),
-                'data'    => null,
-                'status'  => 422,
-            ]);
-        }
+        $request->validated();
 
         $credentials = $request->only('email', 'password');
         $token       = auth('api')->attempt($credentials);
@@ -34,7 +25,7 @@ class SessionsController extends Controller
             return $this->defaultResponse([
                 'message' => 'Invalid email or password',
                 'data'    => null,
-                'status'  => 401,
+                'status'  => Response::HTTP_UNAUTHORIZED ,
             ]);
         }
 
@@ -42,17 +33,17 @@ class SessionsController extends Controller
             'message' => 'Sign in successfully',
             'data'    => auth('api')->user()->userAttributes(),
             'token'   => $token,
-        ], 200);
+        ], Response::HTTP_OK);
     }
 
     public function destroy(Request $request) 
     {
-        JWTAuth::invalidate($JWTAuth::getToken());
+        JWTAuth::invalidate(JWTAuth::getToken());
 
         return $this->defaultResponse([
             'message' => 'Sign out successfully',
             'data'    => null,
-            'status'  => 200,
+            'status'  => Response::HTTP_OK,
         ]);
     }
 }
