@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Users;
 
+use App\Exceptions\GlobalValidationTrait;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
@@ -9,6 +10,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 class RegisterRequest extends FormRequest
 {
+    use GlobalValidationTrait;
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -31,14 +34,5 @@ class RegisterRequest extends FormRequest
             'email'    => 'required|email|unique:users',
             'password' => 'required|min:8|confirmed',
         ];
-    }
-
-    public function failedValidation(Validator $validator)
-    {
-        throw new HttpResponseException(response()->json([
-            'message' => $validator->errors(),
-            'data'    => null,
-        ], Response::HTTP_UNPROCESSABLE_ENTITY));
-        
     }
 }

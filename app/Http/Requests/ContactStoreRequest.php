@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Rules\UniqueUserContacts;
+use App\Exceptions\GlobalValidationTrait;
 use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
@@ -11,6 +12,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ContactStoreRequest extends FormRequest
 {
+    use GlobalValidationTrait;
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -32,13 +35,5 @@ class ContactStoreRequest extends FormRequest
             'name'  => 'required|regex:/^[A-Za-z\s\-]+$/',
             'phone' => ['required', 'numeric', 'digits_between:10,15', new UniqueUserContacts]
         ];
-    }
-
-    public function failedValidation(Validator $validator)
-    {
-        throw new HttpResponseException(response()->json([
-            'message' => $validator->errors(),
-            'data'    => null,
-        ], Response::HTTP_UNPROCESSABLE_ENTITY));
     }
 }
