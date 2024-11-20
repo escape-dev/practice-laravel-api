@@ -10,9 +10,10 @@ use App\Http\Controllers\Api\Users\SessionsController;
 
 Route::post('/register', [RegisterController::class, 'store'])->name('register');
 Route::post('/signin', [SessionsController::class, 'store'])->name('signin');
-Route::delete('/signout', [SessionsController::class, 'destroy'])->name('signout');
 
 Route::middleware('auth:api')->group(function () {
+    Route::delete('/signout', [SessionsController::class, 'destroy'])->name('signout');
+    
     Route::resource('contacts', ContactController::class, [
         'except' => ['create', 'edit']
     ]);
