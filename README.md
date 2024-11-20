@@ -10,8 +10,9 @@ note: jangan lupa menambahkan ```Accept => application/json``` di header
 * Delete a contacts : ``` DELETE /api/contacts/{id} ```
 
 ### Authentication
-* sign in : ``` POST /api/signin ```
 * sign up : ``` POST /api/register ```
+* sign in : ``` POST /api/signin ```
+* sign out : ``` DELETE /api/signout ```
 
 
 ### Somewhat usefull method
