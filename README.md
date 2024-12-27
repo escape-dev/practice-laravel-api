@@ -1,5 +1,8 @@
 # Project kali ini adalah latihan saya dalam membuat RESTful API
-pembuatan RESTful API ini menggunakan bahasa pemrogramman php dan menggunakan framework laravel dengan database mysql.
+## Tech Stack 
+- PHP
+- Laravel
+- MySQL
 
 ## Endpoints
 note: jangan lupa menambahkan ```Accept => application/json``` di header
